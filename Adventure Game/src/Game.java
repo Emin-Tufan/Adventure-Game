@@ -8,7 +8,7 @@ public class Game {
     public void start() {
         player = new Player("Emin");
 
-            player.selectChar();
+        player.selectChar();
 
         while (true) {
             if (this.player.getInventory() != null && this.player.getInventory().getItem().contains("Odun") && this.player.getInventory().getItem().contains("Yemek") && this.player.getInventory().getItem().contains("Su")) {
@@ -20,7 +20,8 @@ public class Game {
                     "2- Esya Dukkani !\n" +
                     "3- Magara Savas Alani (Dusman : Zombi !)\n" +
                     "4- Orman Savas Alani (Dusman : Vampir !) \n" +
-                    "5- Nehir Savas Alni ( Dusman : Ayi !)\n");
+                    "5- Nehir Savas Alni ( Dusman : Ayi !)\n" +
+                    "6- Madene Savas Alani (Dusman : Yilan !\n");
             System.out.println("----------Bolgeler----------\n");
             System.out.print("Gitmek Istedigin Bolgeyi Secin : ");
             int selectedArea = input.nextInt();
@@ -35,6 +36,7 @@ public class Game {
                 case 3:
                     if (this.player.getInventory().getItem().contains("Yemek")) {
                         System.out.println("Bu Bolgedeki Dusmanlari Daha Once Temizlediniz !\n");
+                        break;
                     } else {
                         location = new Cave(this.player);
                         break;
@@ -43,6 +45,7 @@ public class Game {
 
                     if (this.player.getInventory().getItem().contains("Odun")) {
                         System.out.println("Bu Bolgedeki Dusmanlari Daha Once Temizlediniz !\n");
+                        break;
                     } else {
                         location = new Forest(this.player);
                         break;
@@ -52,10 +55,20 @@ public class Game {
 
                     if (this.player.getInventory().getItem().contains("Su")) {
                         System.out.println("Bu Bolgedeki Dusmanlari Daha Once Temizlediniz !\n");
+                        break;
+
                     } else {
                         location = new River(this.player);
+                        break;
                     }
-
+                case 6:
+                    if (this.player.getInventory().getItem().contains("Su")) {
+                        System.out.println("Bu Bolgedeki Dusmanlari Daha Once Temizlediniz !\n");
+                        break;
+                    } else {
+                        location = new Maden(this.player);
+                        break;
+                    }
                 default:
                     location = new House(this.player);
                     break;

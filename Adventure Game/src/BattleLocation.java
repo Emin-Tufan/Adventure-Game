@@ -51,7 +51,13 @@ public abstract class BattleLocation extends Location {
 
                     if (this.getMonster().getHealth() > 0) {
                         System.out.println("Canavar Size Vurdu !\n");
-                        int monsterDamage = this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getBlock();
+                        int monsterDamage;
+                        if (monsterNum == 5) {
+                            monsterDamage = rnd.nextInt(3, 7);
+
+                        } else {
+                            monsterDamage = this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getBlock();
+                        }
                         if (monsterDamage < 0) {
                             monsterDamage = 0;
                         }
@@ -82,15 +88,65 @@ public abstract class BattleLocation extends Location {
         }
         if (this.getMonster().getHealth() < this.getPlayer().getGameChar().getHealth()) {
             System.out.println("Dusmani Yendiniz !");
-            this.getPlayer().getInventory().setItem(this.getAward());
-            this.getPlayer().getGameChar().setMoney(this.getPlayer().getGameChar().getMoney() + this.getMonster().getAward());
-            System.out.println("Kazanilan para : " + monsterNum * this.getMonster().getAward());
-            System.out.println("Guncel Bakiye : " + this.getPlayer().getGameChar().getMoney());
-            System.out.println();
+            if (monsterNum == 5) {
+                int chance = rnd.nextInt(1, 101);
+                this.getMonster().setDamage(rnd.nextInt(3, 7));
+                if (chance <= 45) {
+                    System.out.println("Malesef Bir sey kazanamadınız !");
+
+                } else if (chance > 45 && chance <= 60) {
+                    //Silah
+                    chance = rnd.nextInt(1, 101);
+                    if (chance <= 20) {
+                        this.getPlayer().getInventory().setWeapon(Weapon.selectWeapon(3));
+                    } else if (chance > 20 && chance <= 50) {
+                        this.getPlayer().getInventory().setWeapon(Weapon.selectWeapon(2));
+
+                    } else {
+                        this.getPlayer().getInventory().setWeapon(Weapon.selectWeapon(1));
+                    }
+                } else if (chance > 60 && chance <= 75) {
+                    //Zırh
+                    chance = rnd.nextInt(1, 101);
+                    if (chance <= 20) {
+                        this.getPlayer().getInventory().setArmor(Armor.selectArmor(3));
+                    } else if (chance > 20 && chance <= 50) {
+                        this.getPlayer().getInventory().setArmor(Armor.selectArmor(2));
+
+                    } else {
+                        this.getPlayer().getInventory().setArmor(Armor.selectArmor(1));
+                    }
+
+                } else {
+                    //Para kazanma
+                    chance = rnd.nextInt(1, 101);
+                    int money = this.getPlayer().getGameChar().getMoney();
+                    if (chance <= 20) {
+                        this.getPlayer().getGameChar().setMoney(money + 10);
+                    } else if (chance > 20 && chance <= 50) {
+                        this.getPlayer().getGameChar().setMoney(money + 5);
+
+                    } else {
+                        this.getPlayer().getGameChar().setMoney(money + 1);
+
+                    }
+                }
+
+            } else {
+                this.getPlayer().getInventory().setItem(this.getAward());
+                this.getPlayer().getGameChar().setMoney(this.getPlayer().getGameChar().getMoney() + this.getMonster().getAward());
+                System.out.println("Kazanilan para : " + monsterNum * this.getMonster().getAward());
+                System.out.println("Guncel Bakiye : " + this.getPlayer().getGameChar().getMoney());
+                System.out.println();
+            }
         } else {
             return false;
         }
         return true;
+    }
+
+    private void rewardChance() {
+
     }
 
     private void hitResults() {
@@ -111,13 +167,18 @@ public abstract class BattleLocation extends Location {
         System.out.println("------------------------------------------");
     }
 
+
     private void monsterStatus(int monsterNum) {
         System.out.println("-------------Dusman Degerleri-------------");
         System.out.println("Canavar : " + this.getMonster().getName());
         System.out.println("Sayisi : " + this.getMaxMonster());
-        System.out.println("Hasari : " + this.getMonster().getDamage());
-        System.out.printf("Saglik :  " + this.getMonster().getHealth());
-        System.out.println("Odul :   " + this.getMonster().getAward());
+        if (this.getMonster().getId() != 4) {
+            System.out.println("Hasari : " + this.getMonster().getDamage());
+        }
+        System.out.println("Saglik :  " + this.getMonster().getHealth());
+        if (this.getMonster().getId() != 4) {
+            System.out.println("Odul :   " + this.getMonster().getAward());
+        }
         System.out.println("------------------------------------------");
     }
 
